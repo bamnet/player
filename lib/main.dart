@@ -71,11 +71,12 @@ class _MyHomePageState extends State<MyHomePage> {
       return ConcertoImage(
         url: url,
         duration: Duration(seconds: 1 + (new Random().nextInt(10))),
+        onFinish: this._moveNext,
       );
     } else {
       return ConcertoVideo(
-        videoUrl: 'https://www.youtube.com/watch?v=xTczn5RUgnk',
-        duration: Duration(seconds: 10),
+        videoUrl: 'https://www.youtube.com/watch?v=plJe0uDszaY',
+        onFinish: this._moveNext,
       );
     }
   }
@@ -86,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       currentWidget = this.currentContent.widget;
     });
-    this.currentContent.play(this._moveNext);
+    this.currentContent.play();
 
     this.nextContent = getNext();
   }

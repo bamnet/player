@@ -4,7 +4,8 @@ import 'package:player/content/content.dart';
 class ConcertoImage extends ConcertoContent {
   final String url;
 
-  ConcertoImage({Duration duration, this.url}) : super(duration: duration);
+  ConcertoImage({Duration duration, VoidCallback onFinish, this.url})
+      : super(duration: duration, onFinish: onFinish);
 
   ConcertoImageWidget get widget {
     return new ConcertoImageWidget(url: this.url);
