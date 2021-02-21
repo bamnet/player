@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:player/content/content.dart';
 import 'package:player/content/image.dart';
+import 'package:player/content/video.dart';
 
 void main() {
   runApp(MyApp());
@@ -29,6 +30,7 @@ class MyHomePage extends StatefulWidget {
 
   final List<String> original = [
     'https://picsum.photos/600?image=1',
+    'xTczn5RUgnk',
     'https://picsum.photos/600/800?image=2',
     'https://picsum.photos/600?image=3',
     'https://picsum.photos/640/480?image=4',
@@ -65,10 +67,17 @@ class _MyHomePageState extends State<MyHomePage> {
     String url = list.first;
     list.removeFirst();
 
-    return ConcertoImage(
-      url: url,
-      duration: Duration(seconds: new Random().nextInt(10)),
-    );
+    if (url.length > 20) {
+      return ConcertoImage(
+        url: url,
+        duration: Duration(seconds: 1 + (new Random().nextInt(10))),
+      );
+    } else {
+      return ConcertoVideo(
+        videoUrl: 'https://www.youtube.com/watch?v=xTczn5RUgnk',
+        duration: Duration(seconds: 10),
+      );
+    }
   }
 
   void _moveNext() {
