@@ -40,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
         return Stack(children: [
           Positioned.fill(
             child: Image(
-              image: AssetImage('BlueSwooshNeo_16x9.jpg'),
+              image: AssetImage('assets/BlueSwooshNeo_16x9.jpg'),
               fit: BoxFit.fill,
             ),
           ),
