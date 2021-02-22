@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:player/content/content.dart';
+import 'package:player/content/html.dart';
 import 'package:player/content/image.dart';
 import 'package:player/content/time.dart';
 import 'package:player/content/video.dart';
@@ -31,6 +32,8 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   final List<ContentMetadata> original = [
+    ContentMetadata(
+        type: 'html', url: '<h1>Header</h1><div>Bo<strong>d</strong>y</div>'),
     ContentMetadata(type: 'time'),
     ContentMetadata(
         type: 'image',
@@ -125,6 +128,16 @@ class _MyHomePageState extends State<MyHomePage> {
       case 'time':
         {
           return ConcertoTime(
+            duration: Duration(seconds: 10),
+            onFinish: this._moveNext,
+          );
+        }
+        break;
+
+      case 'html':
+        {
+          return ConcertoHTML(
+            html: item.url,
             duration: Duration(seconds: 10),
             onFinish: this._moveNext,
           );
