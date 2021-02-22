@@ -144,6 +144,7 @@ class _FieldState extends State<Field> {
 
     return Scaffold(
       body: currentWidget,
+      backgroundColor: Colors.transparent,
       floatingActionButton: FloatingActionButton(
         onPressed: _moveNext,
         tooltip: 'Next',
