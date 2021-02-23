@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:player/content/content.dart';
-import 'package:flutter_html/flutter_html.dart';
+import 'package:easy_web_view/easy_web_view.dart';
 
 class ConcertoHTML extends ConcertoContent {
   final String html;
@@ -24,6 +24,12 @@ class ConcertoHTMLWidget extends StatefulWidget {
 class _ConcertoHTMLWidgetState extends State<ConcertoHTMLWidget> {
   @override
   Widget build(BuildContext context) {
-    return Html(data: widget.html);
+    return EasyWebView(
+      src: widget.html,
+      isHtml: true,
+      isMarkdown: false,
+      convertToWidgets: false,
+      onLoaded: () {},
+    );
   }
 }
