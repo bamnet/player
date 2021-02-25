@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:player/field.dart';
+import 'package:player/frontend.dart';
+
+const baseURL = 'http://mock.your-concerto.com';
+const screenId = 1;
 
 void main() {
   runApp(MyApp());
@@ -34,46 +37,10 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: LayoutBuilder(builder: (context, constraints) {
-        double w = constraints.maxWidth;
-        double h = constraints.maxHeight;
-        return Stack(children: [
-          Positioned.fill(
-            child: Image(
-              image: AssetImage('assets/BlueSwooshNeo_16x9.jpg'),
-              fit: BoxFit.fill,
-            ),
-          ),
-          Positioned(
-            left: 0.024 * w,
-            top: 0.885 * h,
-            width: 0.156 * w,
-            height: 0.089 * h,
-            child: Field(),
-          ),
-          Positioned(
-            left: 0.025 * w,
-            top: 0.026 * h,
-            width: 0.567 * w,
-            height: 0.77 * h,
-            child: Field(),
-          ),
-          Positioned(
-            left: 0.68 * w,
-            top: 0.015 * h,
-            width: 0.3 * w,
-            height: 0.796 * h,
-            child: Field(),
-          ),
-          Positioned(
-            left: 0.221 * w,
-            top: 0.885 * h,
-            width: 0.754 * w,
-            height: 0.1 * h,
-            child: Field(),
-          )
-        ]);
-      }),
+      body: Frontend(
+        baseURL: baseURL,
+        screenId: screenId,
+      ),
     );
   }
 }
