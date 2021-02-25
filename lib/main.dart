@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:player/frontend.dart';
 
-const baseURL = 'http://mock.your-concerto.com';
+const baseURL = 'https://mock.your-concerto.com';
 const screenId = 1;
 
 void main() {
