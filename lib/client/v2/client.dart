@@ -7,11 +7,18 @@ class ConcertoV2Client {
 
   ConcertoV2Client({this.httpClient, this.baseURL});
 
-  Future<Screen> getScreen(int id) async {
-    var setupURL = "${this.baseURL}/frontend/$id/setup.json";
+  Future<Screen> getScreen({int screenId}) async {
+    var setupURL = "${this.baseURL}/frontend/$screenId/setup.json";
     final response = await httpClient.get(setupURL);
     final parsed = jsonDecode(response.body).cast<String, dynamic>();
     return Screen.fromJson(parsed);
+  }
+
+  Future<List<Content>> getContent({String fieldContentPath}) async {
+    var contentURL = "${this.baseURL}$fieldContentPath";
+    final response = await httpClient.get(contentURL);
+    final parsed = jsonDecode(response.body) as List<dynamic>;
+    return parsed.map((c) => Content.fromJson(c)).toList();
   }
 }
 
@@ -79,4 +86,19 @@ class Field {
       : id = json['id'],
         name = json['name'],
         config = json['config'];
+}
+
+class Content {
+  int id;
+  String name;
+  int duration;
+  String type;
+  Map<String, dynamic> renderDetails;
+
+  Content.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        name = json['name'],
+        duration = json['duration'],
+        type = json['type'],
+        renderDetails = json['render_details'];
 }

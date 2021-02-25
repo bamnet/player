@@ -1,0 +1,29 @@
+[
+    {
+      "id": 2,
+      "name": "Ticker Test",
+      "duration": 8,
+      "type": "Ticker",
+      "render_details": {
+        "data": "\u003cp\u003eThis is ticker text!  Tick tick tick\u003c/p\u003e\n"
+      }
+    },
+    {
+      "id": 1,
+      "name": "Sample Graphic",
+      "duration": 8,
+      "type": "Graphic",
+      "render_details": {
+        "path": "/frontend/1/fields/1/contents/1"
+      }
+    },
+    {
+      "id": 3,
+      "name": "Sample Video",
+      "duration": 31,
+      "type": "RemoteVideo",
+      "render_details": {
+        "path": "https://fast.wistia.net/embed/iframe/j38ihh83m5?autoPlay=true&chromeless=true&playerColor=black&html5=1"
+      }
+    }
+  ]

@@ -19,7 +19,7 @@ void main() {
       final client =
           ConcertoV2Client(httpClient: httpClient, baseURL: 'http://server');
 
-      final got = await client.getScreen(1);
+      final got = await client.getScreen(screenId: 1);
       expect(got, isA<Screen>());
       expect(got.name, 'Sample Screen');
       expect(got.template.path, '/frontend/1/templates/1.jpg');
@@ -33,6 +33,31 @@ void main() {
       expect(position.bottom, inExclusiveRange(0, 1));
       expect(position.right, inExclusiveRange(0, 1));
       expect(position.field.config['screens_clear_last_content'], isTrue);
+    });
+  });
+
+  group('getContent', () {
+    test('returns Contents on success', () async {
+      final httpClient = MockHTTPClient();
+
+      final file = new File('test/testdata/content_multi.json');
+      when(httpClient.get('http://server/frontend/1/fields/1/contents.json'))
+          .thenAnswer(
+              (_) async => http.Response(await file.readAsString(), 200));
+
+      final client =
+          ConcertoV2Client(httpClient: httpClient, baseURL: 'http://server');
+
+      final got = await client.getContent(
+          fieldContentPath: '/frontend/1/fields/1/contents.json');
+      expect(got, isA<List<Content>>());
+      expect(got.length, 3);
+      expect(got.first.name, 'Ticker Test');
+
+      expect(got.map((e) => e.type), ['Ticker', 'Graphic', 'RemoteVideo']);
+
+      expect(got.first.renderDetails['data'], contains('tick tick'));
+      expect(got.last.renderDetails['path'], contains('embed/iframe'));
     });
   });
 }
