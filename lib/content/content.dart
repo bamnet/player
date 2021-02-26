@@ -16,3 +16,12 @@ abstract class ConcertoContent {
 
   void preload(BuildContext context) {}
 }
+
+class EmptyContent extends ConcertoContent {
+  EmptyContent({Duration duration, VoidCallback onFinish})
+      : super(duration: duration, onFinish: onFinish);
+
+  Widget get widget {
+    return SizedBox();
+  }
+}

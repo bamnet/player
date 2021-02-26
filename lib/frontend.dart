@@ -60,7 +60,14 @@ class _FrontendState extends State<Frontend> {
         top: p.top * h,
         right: w - (p.right * w),
         bottom: h - (p.bottom * h),
-        child: Field(),
+        child: Field(
+          client: this._client,
+          id: p.field.id,
+          name: p.field.name,
+          fieldContentPath: p.fieldContentsPath,
+          style: p.style,
+          config: p.field.config,
+        ),
       );
     });
 
