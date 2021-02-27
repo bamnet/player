@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:player/client/v2/client.dart' as api;
+import 'package:player/content/converter.dart';
 import 'package:player/content_manager.dart';
 import 'package:player/content/content.dart';
-import 'package:player/content/html.dart';
-import 'package:player/content/image.dart';
-import 'package:player/content/text.dart';
-import 'package:player/content/time.dart';
-import 'package:player/content/video.dart';
 
 class Field extends StatefulWidget {
   final api.ConcertoV2Client client;
@@ -64,7 +60,7 @@ class _FieldState extends State<Field> {
   ConcertoContent getNext() {
     try {
       var item = _contentManager.next;
-      return convertContent(item);
+      return convert(item: item, onFinish: _moveNext, baseURL: _client.baseURL);
     } on NoContentException {
       return null;
     }
@@ -94,62 +90,5 @@ class _FieldState extends State<Field> {
     }
 
     return currentWidget;
-  }
-
-  ConcertoContent convertContent(api.Content item) {
-    switch (item.type) {
-      case 'Graphic':
-        {
-          return ConcertoImage(
-            url: "${_client.baseURL}${item.renderDetails['path']}",
-            duration: Duration(seconds: item.duration),
-            onFinish: this._moveNext,
-          );
-        }
-        break;
-
-      case 'Ticker':
-        {
-          return ConcertoText(
-            text: item.renderDetails['data'],
-            duration: Duration(seconds: item.duration),
-            onFinish: this._moveNext,
-          );
-        }
-        break;
-
-      case 'HtmlText':
-        {
-          return ConcertoHTML(
-            html: item.renderDetails['data'],
-            duration: Duration(seconds: item.duration),
-            onFinish: this._moveNext,
-          );
-        }
-        break;
-
-      case 'Time':
-        {
-          return ConcertoTime(
-            duration: Duration(seconds: item.duration),
-            onFinish: this._moveNext,
-          );
-        }
-        break;
-
-      case 'zz_video':
-        {
-          return ConcertoVideo(
-            videoUrl: "",
-            onFinish: this._moveNext,
-          );
-        }
-        break;
-    }
-
-    return EmptyContent(
-      duration: Duration(seconds: 10),
-      onFinish: this._moveNext,
-    );
   }
 }

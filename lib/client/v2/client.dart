@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:player/util.dart';
 
 class ConcertoV2Client {
   final String baseURL;
@@ -8,14 +9,14 @@ class ConcertoV2Client {
   ConcertoV2Client({this.httpClient, this.baseURL});
 
   Future<Screen> getScreen({int screenId}) async {
-    var setupURL = "${this.baseURL}/frontend/$screenId/setup.json";
+    var setupURL = absoluteURL(this.baseURL, '/frontend/$screenId/setup.json');
     final response = await httpClient.get(setupURL);
     final parsed = jsonDecode(response.body).cast<String, dynamic>();
     return Screen.fromJson(parsed);
   }
 
   Future<List<Content>> getContent({String fieldContentPath}) async {
-    var contentURL = "${this.baseURL}$fieldContentPath";
+    var contentURL = absoluteURL(this.baseURL, fieldContentPath);
     final response = await httpClient.get(contentURL);
     final parsed = jsonDecode(response.body) as List<dynamic>;
     return parsed.map((c) => Content.fromJson(c)).toList();

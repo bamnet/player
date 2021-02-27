@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:player/client/v2/client.dart' as api;
 import 'package:http/http.dart' as http;
 import 'package:player/field.dart';
+import 'package:player/util.dart';
 
 class Frontend extends StatefulWidget {
   final String baseURL;
@@ -46,7 +47,7 @@ class _FrontendState extends State<Frontend> {
     double h = constraints.maxHeight;
     print("Screen size: $w x $h");
 
-    var templateURL = '${widget.baseURL}${screen.template.path}';
+    var templateURL = absoluteURL(widget.baseURL, screen.template.path);
     print("Loading template from $templateURL");
     Positioned background = Positioned.fill(
         child: Image(
