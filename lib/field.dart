@@ -1,15 +1,12 @@
-import 'dart:collection';
-
-import 'package:player/client/v2/client.dart' as api;
 import 'package:flutter/material.dart';
+import 'package:player/client/v2/client.dart' as api;
+import 'package:player/content_manager.dart';
 import 'package:player/content/content.dart';
 import 'package:player/content/html.dart';
 import 'package:player/content/image.dart';
 import 'package:player/content/text.dart';
 import 'package:player/content/time.dart';
 import 'package:player/content/video.dart';
-
-class NoContentException implements Exception {}
 
 class Field extends StatefulWidget {
   final api.ConcertoV2Client client;
@@ -30,81 +27,63 @@ class Field extends StatefulWidget {
       : super(key: key);
 
   @override
-  _FieldState createState() => _FieldState(client);
+  _FieldState createState() => _FieldState(client, fieldContentPath);
 }
 
 class _FieldState extends State<Field> {
   api.ConcertoV2Client _client;
-  ListQueue<api.Content> list = ListQueue();
+  ContentManager _contentManager;
 
-  _FieldState(this._client);
+  _FieldState(this._client, String fieldContentPath) {
+    this._contentManager = ContentManager(
+        client: _client,
+        fieldContentPath: fieldContentPath,
+        onRefill: recoveryFromEmpty);
+    this._contentManager.refresh();
+  }
 
   Widget currentWidget = SizedBox(); // Placeholder widget.
 
   ConcertoContent currentContent;
   ConcertoContent nextContent;
 
-  @override
-  void initState() {
-    super.initState();
+  void recoveryFromEmpty() {
+    if (currentContent == null) {
+      print("Recovering from empty queue by populating current.");
+      nextContent = getNext();
+      _moveNext();
+    }
 
-    initialLoad();
-  }
-
-  void initialLoad() {
-    print("Initial content load for field ${widget.id}.");
-    _client.getContent(fieldContentPath: widget.fieldContentPath).then((value) {
-      list.addAll(value);
-
-      if (list.isNotEmpty) {
-        nextContent = getNext();
-        _moveNext();
-      } else {
-        print("No content found for field ${widget.id}");
-      }
-    });
-  }
-
-  void refresh() {
-    print("Fetching content for field ${widget.id}");
-    _client.getContent(fieldContentPath: widget.fieldContentPath).then((value) {
-      list.addAll(value);
-      // If we got content and we don't have any on-deck, queue it up.
-      if (list.isNotEmpty && nextContent is EmptyContent) {
-        nextContent = getNext();
-      }
-    });
+    if (this.nextContent == null) {
+      print("Recovering from empty queue by populating next.");
+      nextContent = getNext();
+    }
   }
 
   ConcertoContent getNext() {
-    if (list.length == 0) {
-      throw new NoContentException();
+    try {
+      var item = _contentManager.next;
+      return convertContent(item);
+    } on NoContentException {
+      return null;
     }
-
-    var item = list.first;
-    list.removeFirst();
-
-    return convertContent(item);
   }
 
   void _moveNext() {
-    // If we are running low on content, start refreshing more.
-    if (list.length < 2) {
-      refresh();
-    }
     this.currentContent = this.nextContent;
-    setState(() {
-      currentWidget = this.currentContent.widget;
-    });
-    this.currentContent.play();
 
-    // If we have more content available, queue it up.
-    if (list.length > 1) {
-      this.nextContent = getNext();
-    } else {
-      this.nextContent =
-          EmptyContent(duration: Duration(seconds: 30), onFinish: _moveNext);
+    setState(() {
+      if (this.currentContent == null) {
+        currentWidget = SizedBox();
+      } else {
+        currentWidget = this.currentContent.widget;
+      }
+    });
+    if (this.currentContent != null) {
+      this.currentContent.play();
     }
+
+    this.nextContent = getNext();
   }
 
   @override

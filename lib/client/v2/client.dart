@@ -95,6 +95,8 @@ class Content {
   String type;
   Map<String, dynamic> renderDetails;
 
+  Content({this.id, this.name, this.duration, this.type, this.renderDetails});
+
   Content.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         name = json['name'],
