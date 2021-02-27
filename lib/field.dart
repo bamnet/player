@@ -27,17 +27,18 @@ class Field extends StatefulWidget {
       : super(key: key);
 
   @override
-  _FieldState createState() => _FieldState(client, fieldContentPath);
+  _FieldState createState() => _FieldState(client, fieldContentPath, name);
 }
 
 class _FieldState extends State<Field> {
   api.ConcertoV2Client _client;
   ContentManager _contentManager;
 
-  _FieldState(this._client, String fieldContentPath) {
+  _FieldState(this._client, String fieldContentPath, String fieldName) {
     this._contentManager = ContentManager(
         client: _client,
         fieldContentPath: fieldContentPath,
+        fieldName: fieldName,
         onRefill: recoveryFromEmpty);
     this._contentManager.refresh();
   }
@@ -127,19 +128,19 @@ class _FieldState extends State<Field> {
         }
         break;
 
-      case 'zz_video':
+      case 'Time':
         {
-          return ConcertoVideo(
-            videoUrl: "",
+          return ConcertoTime(
+            duration: Duration(seconds: item.duration),
             onFinish: this._moveNext,
           );
         }
         break;
 
-      case 'zz_time':
+      case 'zz_video':
         {
-          return ConcertoTime(
-            duration: Duration(seconds: 10),
+          return ConcertoVideo(
+            videoUrl: "",
             onFinish: this._moveNext,
           );
         }

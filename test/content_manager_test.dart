@@ -67,6 +67,21 @@ void main() {
     });
   });
 
+  test('returns synthetic time field content', () {
+    fakeAsync((async) {
+      final client = MockConcertoV2Client();
+      when(client.getContent(fieldContentPath: 'path'))
+          .thenAnswer((_) async => <Content>[]);
+
+      final contentManager = ContentManager(
+          client: client, fieldContentPath: 'path', fieldName: 'Time');
+      contentManager.refresh();
+      async.elapse(Duration(seconds: 1));
+
+      expect(contentManager.next.type, 'Time');
+    });
+  });
+
   group('onFinish callback', () {
     test('invokes callback once when first filled', () {
       fakeAsync((async) {

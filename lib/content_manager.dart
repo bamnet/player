@@ -8,11 +8,13 @@ class NoContentException implements Exception {}
 class ContentManager {
   final api.ConcertoV2Client client;
   final String fieldContentPath;
+  final String fieldName;
   final VoidCallback onRefill;
 
   ListQueue<api.Content> queue = ListQueue();
 
-  ContentManager({this.client, this.fieldContentPath, this.onRefill});
+  ContentManager(
+      {this.client, this.fieldContentPath, this.fieldName, this.onRefill});
 
   api.Content get next {
     _maybeRefresh();
@@ -38,6 +40,10 @@ class ContentManager {
     bool queueWasEmpty = queue.isEmpty;
 
     queue.addAll(items);
+
+    if (fieldName == 'Time' && queue.isEmpty) {
+      queue.add(api.Content(duration: 60, type: 'Time'));
+    }
 
     if (queueWasEmpty && queue.isNotEmpty && onRefill != null) {
       // The queue was empty, but is no longer.

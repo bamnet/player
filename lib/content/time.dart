@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:player/content/content.dart';
 import 'package:intl/intl.dart';
@@ -39,11 +40,13 @@ class _ConcertoTimeWidgetState extends State<ConcertoTimeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO(bamnet): Make the sizing dynamic here.
-    return Container(
-        width: 500.0,
-        height: 500.0,
-        child: FittedBox(fit: BoxFit.fitWidth, child: Text(_time)));
+    return FittedBox(
+        fit: BoxFit.contain,
+        child: Text(
+          _time,
+          // TODO: This should be dynamic.
+          style: TextStyle(color: Colors.white),
+        ));
   }
 
   void _getTime() {
