@@ -24,7 +24,8 @@ class _ConcertoTextWidgetState extends State<ConcertoTextWidget> {
   @override
   Widget build(BuildContext context) {
     return FittedBox(
-        fit: BoxFit.contain,
+        fit: BoxFit.fill,
+        alignment: Alignment.center,
         child: Text(
           widget.text,
         ));

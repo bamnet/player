@@ -19,12 +19,14 @@ import 'package:player/util.dart';
 ///
 /// If an appropriate [ConcertoContent] cannot be found,
 /// a generic [EmptyContent] is returned.
-ConcertoContent convert({api.Content item, Function onFinish, String baseURL}) {
+ConcertoContent convert(
+    {api.Content item, Function onFinish, String baseURL, String style}) {
   switch (item.type) {
     case 'Graphic':
       {
         return ConcertoImage(
             url: absoluteURL(baseURL, item.renderDetails['path']),
+            style: style,
             duration: Duration(seconds: item.duration),
             onFinish: onFinish);
       }

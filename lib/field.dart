@@ -61,7 +61,11 @@ class _FieldState extends State<Field> {
   ConcertoContent getNext() {
     try {
       var item = _contentManager.next;
-      return convert(item: item, onFinish: _moveNext, baseURL: _client.baseURL);
+      return convert(
+          item: item,
+          onFinish: _moveNext,
+          baseURL: _client.baseURL,
+          style: widget.style);
     } on NoContentException {
       return null;
     }
@@ -90,7 +94,7 @@ class _FieldState extends State<Field> {
       this.nextContent.preload(context);
     }
     return DefaultTextStyle(
-      style: textStyle(widget.style),
+      style: cssToTextStyle(widget.style),
       child: currentWidget,
     );
   }

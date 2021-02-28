@@ -1,7 +1,9 @@
 import 'package:flutter/widgets.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-RegExp _protocolRe = new RegExp(r'^[a-z0-9]+://');
+final RegExp _protocolRe = RegExp(r'^[a-z0-9]+://');
+final RegExp _styleRe = RegExp(r'(?<prop>[\w\-]+)\s?:\s?(?<val>[^;]+)');
+final RegExp _splitRe = RegExp(r', ?');
 
 /// Convert a path into an absolute URL if needed.
 ///
@@ -21,22 +23,38 @@ String absoluteURL(String baseURL, String path) {
   return path;
 }
 
-TextStyle textStyle(String style) {
-  RegExp styleRe = RegExp(r"(?<prop>[\w\-]+)\s?:\s?(?<val>[^;]+)");
-  Iterable<RegExpMatch> matches = styleRe.allMatches(style);
+/// Parse a simple css style string into a Map.
+Map<String, String> cssMap(String style) {
+  Iterable<RegExpMatch> matches = _styleRe.allMatches(style);
 
-  var parsed = {
+  return {
     for (var match in matches)
       match.namedGroup('prop').toLowerCase(): match.namedGroup('val')
   };
+}
 
+BoxDecoration cssToBoxDecoration(String style) {
+  Map<String, String> parsed = cssMap(style);
+  if (parsed.containsKey('border')) {
+    var pieces = parsed['border'].split(' ');
+    var width = double.parse(pieces[1].replaceAll('px', ''));
+    var b = Border.all(
+      width: width,
+      color: cssColor(pieces[2]),
+    );
+
+    return BoxDecoration(border: b);
+  }
+  return null;
+}
+
+TextStyle cssToTextStyle(String style) {
+  Map<String, String> parsed = cssMap(style);
   var t = TextStyle();
+
   if (parsed.containsKey('color')) {
     var hex = parsed['color'];
-    if (hex.length == 4) {
-      hex = "#${hex[1]}${hex[1]}${hex[2]}${hex[2]}${hex[3]}${hex[3]}";
-    }
-    t = t.merge(TextStyle(color: HexColor(hex)));
+    t = t.merge(TextStyle(color: cssColor(hex)));
   }
   if (parsed.containsKey('font-weight')) {
     switch (parsed['font-weight']) {
@@ -46,10 +64,21 @@ TextStyle textStyle(String style) {
     }
   }
   if (parsed.containsKey('font-family')) {
-    var family = parsed['font-family'].split(new RegExp(r", ?"));
+    var family = parsed['font-family'].split(_splitRe);
     t = t.merge(TextStyle(
         fontFamily: family.first, fontFamilyFallback: family.sublist(1)));
   }
 
   return t;
+}
+
+/// Convert a css color string into a [Color] object.
+///
+/// The heavy lifting here is done by the [HexColor] library,
+/// but additional logic is used to handle various CSS formats.
+Color cssColor(String hex) {
+  if (hex.length == 4) {
+    hex = '#${hex[1]}${hex[1]}${hex[2]}${hex[2]}${hex[3]}${hex[3]}';
+  }
+  return HexColor(hex);
 }

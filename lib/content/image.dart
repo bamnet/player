@@ -1,14 +1,18 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:player/content/content.dart';
+import 'package:player/util.dart';
 
 class ConcertoImage extends ConcertoContent {
   final String url;
+  final String style;
 
-  ConcertoImage({Duration duration, VoidCallback onFinish, this.url})
+  ConcertoImage(
+      {Duration duration, VoidCallback onFinish, this.style, this.url})
       : super(duration: duration, onFinish: onFinish);
 
   ConcertoImageWidget get widget {
-    return new ConcertoImageWidget(url: this.url);
+    return new ConcertoImageWidget(url: this.url, style: this.style);
   }
 
   void preload(BuildContext context) {
@@ -18,8 +22,9 @@ class ConcertoImage extends ConcertoContent {
 }
 
 class ConcertoImageWidget extends StatefulWidget {
-  ConcertoImageWidget({Key key, this.url}) : super(key: key);
+  ConcertoImageWidget({Key key, this.url, this.style}) : super(key: key);
   final String url;
+  final String style;
 
   @override
   _ConcertoImageWidgetState createState() => _ConcertoImageWidgetState();
@@ -28,16 +33,14 @@ class ConcertoImageWidget extends StatefulWidget {
 class _ConcertoImageWidgetState extends State<ConcertoImageWidget> {
   @override
   Widget build(BuildContext context) {
-    return _img(widget.url);
+    return Align(
+        alignment: Alignment.center,
+        child: Container(
+            decoration: cssToBoxDecoration(widget.style),
+            child: _img(widget.url)));
   }
 }
 
 Image _img(String url) {
-  return Image.network(
-    url,
-    fit: BoxFit.contain,
-    height: double.infinity,
-    width: double.infinity,
-    alignment: Alignment.center,
-  );
+  return Image.network(url);
 }
