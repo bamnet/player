@@ -46,6 +46,7 @@ ConcertoContent convert(
       {
         return ConcertoHTML(
           html: item.renderDetails['data'],
+          style: style,
           duration: Duration(seconds: item.duration),
           onFinish: onFinish,
         );
