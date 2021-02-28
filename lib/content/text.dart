@@ -27,8 +27,6 @@ class _ConcertoTextWidgetState extends State<ConcertoTextWidget> {
         fit: BoxFit.contain,
         child: Text(
           widget.text,
-          // TODO: This should be dynamic.
-          style: TextStyle(color: Colors.white),
         ));
   }
 }

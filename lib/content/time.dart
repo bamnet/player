@@ -40,13 +40,7 @@ class _ConcertoTimeWidgetState extends State<ConcertoTimeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return FittedBox(
-        fit: BoxFit.contain,
-        child: Text(
-          _time,
-          // TODO: This should be dynamic.
-          style: TextStyle(color: Colors.white),
-        ));
+    return FittedBox(fit: BoxFit.contain, child: Text(_time));
   }
 
   void _getTime() {

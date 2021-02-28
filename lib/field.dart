@@ -3,6 +3,7 @@ import 'package:player/client/v2/client.dart' as api;
 import 'package:player/content/converter.dart';
 import 'package:player/content_manager.dart';
 import 'package:player/content/content.dart';
+import 'package:player/util.dart';
 
 class Field extends StatefulWidget {
   final api.ConcertoV2Client client;
@@ -88,7 +89,9 @@ class _FieldState extends State<Field> {
     if (this.nextContent != null) {
       this.nextContent.preload(context);
     }
-
-    return currentWidget;
+    return DefaultTextStyle(
+      style: textStyle(widget.style),
+      child: currentWidget,
+    );
   }
 }
