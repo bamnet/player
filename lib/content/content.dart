@@ -4,8 +4,9 @@ import 'package:flutter/widgets.dart';
 abstract class ConcertoContent {
   final Duration duration;
   final VoidCallback onFinish;
+  final int id;
 
-  ConcertoContent({this.duration, this.onFinish});
+  ConcertoContent({this.id, this.duration, this.onFinish});
 
   Widget get widget;
 

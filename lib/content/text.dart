@@ -5,11 +5,11 @@ import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart
 
 class ConcertoText extends ConcertoContent {
   final String text;
-  ConcertoText({Duration duration, VoidCallback onFinish, this.text})
-      : super(duration: duration, onFinish: onFinish);
+  ConcertoText({Duration duration, VoidCallback onFinish, int id, this.text})
+      : super(duration: duration, onFinish: onFinish, id: id);
 
   ConcertoTextWidget get widget {
-    return new ConcertoTextWidget(text: text);
+    return new ConcertoTextWidget(key: ValueKey(this.id), text: text);
   }
 }
 

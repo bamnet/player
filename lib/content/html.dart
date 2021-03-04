@@ -7,11 +7,12 @@ class ConcertoHTML extends ConcertoContent {
   final String style;
 
   ConcertoHTML(
-      {Duration duration, VoidCallback onFinish, this.html, this.style})
-      : super(duration: duration, onFinish: onFinish);
+      {Duration duration, VoidCallback onFinish, int id, this.html, this.style})
+      : super(duration: duration, onFinish: onFinish, id: id);
 
   ConcertoHTMLWidget get widget {
-    return new ConcertoHTMLWidget(html: this.html, style: this.style);
+    return new ConcertoHTMLWidget(
+        key: ValueKey(this.id), html: this.html, style: this.style);
   }
 }
 

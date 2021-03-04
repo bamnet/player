@@ -8,11 +8,12 @@ class ConcertoImage extends ConcertoContent {
   final String style;
 
   ConcertoImage(
-      {Duration duration, VoidCallback onFinish, this.style, this.url})
-      : super(duration: duration, onFinish: onFinish);
+      {Duration duration, VoidCallback onFinish, int id, this.style, this.url})
+      : super(duration: duration, onFinish: onFinish, id: id);
 
   ConcertoImageWidget get widget {
-    return new ConcertoImageWidget(url: this.url, style: this.style);
+    return new ConcertoImageWidget(
+        key: ValueKey(this.id), url: this.url, style: this.style);
   }
 
   void preload(BuildContext context) {

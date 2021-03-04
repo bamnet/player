@@ -25,10 +25,12 @@ ConcertoContent convert(
     case 'Graphic':
       {
         return ConcertoImage(
-            url: absoluteURL(baseURL, item.renderDetails['path']),
-            style: style,
-            duration: Duration(seconds: item.duration),
-            onFinish: onFinish);
+          url: absoluteURL(baseURL, item.renderDetails['path']),
+          style: style,
+          duration: Duration(seconds: item.duration),
+          onFinish: onFinish,
+          id: item.id,
+        );
       }
       break;
 
@@ -38,6 +40,7 @@ ConcertoContent convert(
           text: item.renderDetails['data'],
           duration: Duration(seconds: item.duration),
           onFinish: onFinish,
+          id: item.id,
         );
       }
       break;
@@ -49,6 +52,7 @@ ConcertoContent convert(
           style: style,
           duration: Duration(seconds: item.duration),
           onFinish: onFinish,
+          id: item.id,
         );
       }
       break;
