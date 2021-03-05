@@ -5,6 +5,8 @@ import 'package:player/content_manager.dart';
 import 'package:player/content/content.dart';
 import 'package:player/util.dart';
 
+const transitionTime = Duration(milliseconds: 250);
+
 class Field extends StatefulWidget {
   final api.ConcertoV2Client client;
   final int id;
@@ -95,7 +97,20 @@ class _FieldState extends State<Field> {
     }
     return DefaultTextStyle(
       style: cssToTextStyle(widget.style),
-      child: currentWidget,
+      child: AnimatedSwitcher(
+        child: currentWidget,
+        duration: transitionTime,
+        layoutBuilder: (Widget currentChild, List<Widget> previousChildren) {
+          return Stack(
+            children: <Widget>[
+              ...previousChildren,
+              if (currentChild != null) currentChild,
+            ],
+            alignment: Alignment.center,
+            fit: StackFit.expand,
+          );
+        },
+      ),
     );
   }
 }
