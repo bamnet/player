@@ -1,3 +1,8 @@
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:html' as html;
+import 'dart:ui' as ui;
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:player/content/content.dart';
 import 'package:easy_web_view/easy_web_view.dart';
@@ -28,12 +33,30 @@ class ConcertoHTMLWidget extends StatefulWidget {
 class _ConcertoHTMLWidgetState extends State<ConcertoHTMLWidget> {
   @override
   Widget build(BuildContext context) {
-    return EasyWebView(
-      src: '<style>*{${widget.style}}</style>${widget.html}',
-      isHtml: true,
-      isMarkdown: false,
-      convertToWidgets: false,
-      onLoaded: () {},
-    );
+    if (kIsWeb) {
+      String viewId = _setup(src: widget.html, style: widget.style);
+      return HtmlElementView(viewType: viewId);
+    } else {
+      return EasyWebView(
+        src: '<style>*{${widget.style}}</style>${widget.html}',
+        isHtml: true,
+        isMarkdown: false,
+        convertToWidgets: false,
+        onLoaded: () {},
+      );
+    }
   }
+}
+
+String _setup({String src, String style}) {
+  String id = "content-${src.length}";
+
+  ui.platformViewRegistry.registerViewFactory(id, (int viewId) {
+    final element = html.DivElement();
+    element.innerHtml = src;
+    element.attributes['style'] = style;
+    return element;
+  });
+
+  return id;
 }
