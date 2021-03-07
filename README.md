@@ -1,16 +1,20 @@
 # Concerto Player
 
-A new Flutter project.
+Concerto Player is an experimental new frontend for
+[Concerto Digital Signage](https://www.concerto-signage.org/) written in Flutter.
 
-## Getting Started
+It aims to provide a cross-platform screen player that is easier to maintain
+than the existing stack by bundling all content types into the same package
+instead of relying on the post-distribution plugin process of the prior
+Concerto V2 frontends.
 
-This project is a starting point for a Flutter application.
+This is _not_ ready for production use.
 
-A few resources to get you started if this is your first Flutter project:
+## Target Platforms
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+One of the benefits of Flutter is that the same codebase can develop nearly
+native experiences on a variety of platforms. The player targets:
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Web, to provide compatability with the existing frontend platform.
+2. Android, to support tablets and TV devices.
+3. Everything else.
