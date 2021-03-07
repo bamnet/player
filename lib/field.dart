@@ -95,8 +95,10 @@ class _FieldState extends State<Field> {
     if (this.nextContent != null) {
       this.nextContent.preload(context);
     }
+
+    TextStyle style = cssToTextStyle(widget.style);
     return DefaultTextStyle(
-      style: cssToTextStyle(widget.style),
+      style: DefaultTextStyle.of(context).style.merge(style),
       child: AnimatedSwitcher(
         child: currentWidget,
         duration: transitionTime,
