@@ -10,14 +10,14 @@ class ConcertoV2Client {
 
   Future<Screen> getScreen({int screenId}) async {
     var setupURL = absoluteURL(this.baseURL, '/frontend/$screenId/setup.json');
-    final response = await httpClient.get(setupURL);
+    final response = await httpClient.get(Uri.tryParse(setupURL));
     final parsed = jsonDecode(response.body).cast<String, dynamic>();
     return Screen.fromJson(parsed);
   }
 
   Future<List<Content>> getContent({String fieldContentPath}) async {
     var contentURL = absoluteURL(this.baseURL, fieldContentPath);
-    final response = await httpClient.get(contentURL);
+    final response = await httpClient.get(Uri.tryParse(contentURL));
     final parsed = jsonDecode(response.body) as List<dynamic>;
     return parsed.map((c) => Content.fromJson(c)).toList();
   }

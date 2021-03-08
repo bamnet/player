@@ -13,8 +13,9 @@ void main() {
       final httpClient = MockHTTPClient();
 
       final file = new File('test/testdata/setup_standard.json');
-      when(httpClient.get('http://server/frontend/1/setup.json')).thenAnswer(
-          (_) async => http.Response(await file.readAsString(), 200));
+      when(httpClient.get(Uri.tryParse('http://server/frontend/1/setup.json')))
+          .thenAnswer(
+              (_) async => http.Response(await file.readAsString(), 200));
 
       final client =
           ConcertoV2Client(httpClient: httpClient, baseURL: 'http://server');
@@ -41,7 +42,8 @@ void main() {
       final httpClient = MockHTTPClient();
 
       final file = new File('test/testdata/content_multi.json');
-      when(httpClient.get('http://server/frontend/1/fields/1/contents.json'))
+      when(httpClient.get(
+              Uri.tryParse('http://server/frontend/1/fields/1/contents.json')))
           .thenAnswer(
               (_) async => http.Response(await file.readAsString(), 200));
 

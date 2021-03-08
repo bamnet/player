@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:player/content/content.dart';
-import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 class ConcertoHTML extends ConcertoContent {
   final String html;
@@ -29,6 +29,9 @@ class ConcertoHTMLWidget extends StatefulWidget {
 class _ConcertoHTMLWidgetState extends State<ConcertoHTMLWidget> {
   @override
   Widget build(BuildContext context) {
-    return HtmlWidget(widget.html);
+    return HtmlWidget(
+      widget.html,
+      webView: true,
+    );
   }
 }

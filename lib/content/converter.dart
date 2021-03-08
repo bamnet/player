@@ -4,7 +4,6 @@ import 'package:player/content/html.dart';
 import 'package:player/content/image.dart';
 import 'package:player/content/text.dart';
 import 'package:player/content/time.dart';
-import 'package:player/content/video.dart';
 import 'package:player/util.dart';
 
 /// Convert an API response into the right [ConcertoContent] subclass.
@@ -66,11 +65,14 @@ ConcertoContent convert(
       }
       break;
 
-    case 'zz_video':
+    case 'RemoteVideo':
       {
-        return ConcertoVideo(
-          videoUrl: "",
+        return ConcertoHTML(
+          html: '<iframe src="${item.renderDetails['path']}"></iframe>',
+          style: style,
+          duration: Duration(seconds: item.duration),
           onFinish: onFinish,
+          id: item.id,
         );
       }
       break;
