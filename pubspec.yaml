@@ -26,6 +26,7 @@ dependencies:
   intl: ^0.17.0
   hexcolor: ^2.0.0
   flutter_widget_from_html: ^0.6.0-rc.2021030401
+  shared_preferences: ^2.0.3
 
 
   # The following adds the Cupertino Icons font to your application.

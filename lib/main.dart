@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:player/frontend.dart';
+import 'package:player/settings.dart';
+import 'package:player/settings_page.dart';
 
-const baseURL = 'https://mock.your-concerto.com';
-const screenId = 1;
-
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await AppSettings().init();
   runApp(MyApp());
 }
 
@@ -16,7 +17,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Concerto Player Demo'),
+      home: MyHomePage(
+        title: 'Concerto Player Demo',
+      ),
     );
   }
 }
@@ -31,16 +34,36 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  String baseUrl = AppSettings().baseUrl;
+  int screenId = AppSettings().screenId;
+
   @override
   Widget build(BuildContext context) {
+    print("Screen ID $screenId");
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Frontend(
-        baseURL: baseURL,
-        screenId: screenId,
-      ),
-    );
+        appBar: AppBar(
+          title: Text(widget.title),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.settings),
+              tooltip: 'Settings',
+              onPressed: () async {
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SettingsPage()),
+                );
+                setState(() {
+                  baseUrl = AppSettings().baseUrl;
+                  screenId = AppSettings().screenId;
+                  print("Screen ID is now $screenId");
+                });
+              },
+            )
+          ],
+        ),
+        body: Frontend(
+          baseURL: baseUrl,
+          screenId: screenId,
+        ));
   }
 }

@@ -15,34 +15,27 @@ class Frontend extends StatefulWidget {
 }
 
 class _FrontendState extends State<Frontend> {
-  api.ConcertoV2Client _client;
-  Future<api.Screen> _screen;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _client = api.ConcertoV2Client(
-        httpClient: http.Client(), baseURL: widget.baseURL);
-    _screen = _client.getScreen(screenId: widget.screenId);
-  }
-
   @override
   Widget build(BuildContext context) {
+    api.ConcertoV2Client client = api.ConcertoV2Client(
+      httpClient: http.Client(),
+      baseURL: widget.baseURL,
+    );
+
     return LayoutBuilder(builder: (context, constraints) {
       return FutureBuilder<api.Screen>(
-          future: _screen,
+          future: client.getScreen(screenId: widget.screenId),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return screenLayout(context, constraints, snapshot.data);
+              return screenLayout(context, constraints, client, snapshot.data);
             } else if (snapshot.hasError) {}
             return CircularProgressIndicator();
           });
     });
   }
 
-  Stack screenLayout(
-      BuildContext context, BoxConstraints constraints, api.Screen screen) {
+  Stack screenLayout(BuildContext context, BoxConstraints constraints,
+      api.ConcertoV2Client client, api.Screen screen) {
     double w = constraints.maxWidth;
     double h = constraints.maxHeight;
     print("Screen size: $w x $h");
@@ -62,7 +55,7 @@ class _FrontendState extends State<Frontend> {
         right: w - (p.right * w),
         bottom: h - (p.bottom * h),
         child: Field(
-          client: this._client,
+          client: client,
           id: p.field.id,
           name: p.field.name,
           fieldContentPath: p.fieldContentsPath,
