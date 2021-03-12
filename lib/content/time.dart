@@ -9,8 +9,9 @@ class ConcertoTime extends ConcertoContent {
   ConcertoTime({Duration duration, VoidCallback onFinish})
       : super(duration: duration, onFinish: onFinish);
 
+  @override
   ConcertoTimeWidget get widget {
-    return new ConcertoTimeWidget();
+    return ConcertoTimeWidget();
   }
 }
 
@@ -44,8 +45,8 @@ class _ConcertoTimeWidgetState extends State<ConcertoTimeWidget> {
   }
 
   void _getTime() {
-    final DateTime now = DateTime.now();
-    final String formattedDateTime = _formatDateTime(now);
+    final now = DateTime.now();
+    final formattedDateTime = _formatDateTime(now);
     setState(() {
       _time = formattedDateTime;
     });

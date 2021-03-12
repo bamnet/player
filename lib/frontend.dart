@@ -17,7 +17,7 @@ class Frontend extends StatefulWidget {
 class _FrontendState extends State<Frontend> {
   @override
   Widget build(BuildContext context) {
-    api.ConcertoV2Client client = api.ConcertoV2Client(
+    var client = api.ConcertoV2Client(
       httpClient: http.Client(),
       baseURL: widget.baseURL,
     );
@@ -36,19 +36,19 @@ class _FrontendState extends State<Frontend> {
 
   Stack screenLayout(BuildContext context, BoxConstraints constraints,
       api.ConcertoV2Client client, api.Screen screen) {
-    double w = constraints.maxWidth;
-    double h = constraints.maxHeight;
-    print("Screen size: $w x $h");
+    var w = constraints.maxWidth;
+    var h = constraints.maxHeight;
+    print('Screen size: $w x $h');
 
     var templateURL = absoluteURL(widget.baseURL, screen.template.path);
-    print("Loading template from $templateURL");
-    Positioned background = Positioned.fill(
+    print('Loading template from $templateURL');
+    var background = Positioned.fill(
         child: Image(
       image: Image.network(templateURL).image,
       fit: BoxFit.fill,
     ));
 
-    Iterable<Positioned> positions = screen.template.positions.map((p) {
+    var positions = screen.template.positions.map((p) {
       return Positioned(
         left: p.left * w,
         top: p.top * h,
@@ -65,7 +65,7 @@ class _FrontendState extends State<Frontend> {
       );
     });
 
-    List<Positioned> layout = [background];
+    var layout = <Positioned>[background];
     layout.addAll(positions);
     return Stack(children: layout);
   }

@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-const defaultBaseUrl = "http://mock.your-concerto.com";
+const defaultBaseUrl = 'https://mock.your-concerto.com';
 const defaultScreenId = 1;
 
 const keyBaseUrl = 'base_url';

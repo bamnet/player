@@ -18,7 +18,7 @@ class SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Settings"),
+        title: Text('Settings'),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.arrow_back),
@@ -75,8 +75,8 @@ class SettingsPageState extends State<SettingsPage> {
                         if (form.validate()) {
                           form.save();
 
-                          print("Base: $baseUrl, ID: $screenId");
-                          AppSettings settings = AppSettings();
+                          print('Base: $baseUrl, ID: $screenId');
+                          var settings = AppSettings();
                           settings.baseUrl = baseUrl;
                           settings.screenId = screenId;
                           Navigator.pop(context);

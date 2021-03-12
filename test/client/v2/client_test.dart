@@ -12,7 +12,7 @@ void main() {
     test('returns a Screen on success', () async {
       final httpClient = MockHTTPClient();
 
-      final file = new File('test/testdata/setup_standard.json');
+      final file = File('test/testdata/setup_standard.json');
       when(httpClient.get(Uri.tryParse('http://server/frontend/1/setup.json')))
           .thenAnswer(
               (_) async => http.Response(await file.readAsString(), 200));
@@ -41,7 +41,7 @@ void main() {
     test('returns Contents on success', () async {
       final httpClient = MockHTTPClient();
 
-      final file = new File('test/testdata/content_multi.json');
+      final file = File('test/testdata/content_multi.json');
       when(httpClient.get(
               Uri.tryParse('http://server/frontend/1/fields/1/contents.json')))
           .thenAnswer(

@@ -8,8 +8,9 @@ class ConcertoText extends ConcertoContent {
   ConcertoText({Duration duration, VoidCallback onFinish, int id, this.text})
       : super(duration: duration, onFinish: onFinish, id: id);
 
+  @override
   ConcertoTextWidget get widget {
-    return new ConcertoTextWidget(key: ValueKey(this.id), text: text);
+    return ConcertoTextWidget(key: ValueKey(id), text: text);
   }
 }
 

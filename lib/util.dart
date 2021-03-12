@@ -25,7 +25,7 @@ String absoluteURL(String baseURL, String path) {
 
 /// Parse a simple css style string into a Map.
 Map<String, String> cssMap(String style) {
-  Iterable<RegExpMatch> matches = _styleRe.allMatches(style);
+  var matches = _styleRe.allMatches(style);
 
   return {
     for (var match in matches)
@@ -34,7 +34,7 @@ Map<String, String> cssMap(String style) {
 }
 
 BoxDecoration cssToBoxDecoration(String style) {
-  Map<String, String> parsed = cssMap(style);
+  var parsed = cssMap(style);
   if (parsed.containsKey('border')) {
     var pieces = parsed['border'].split(' ');
     var width = double.parse(pieces[1].replaceAll('px', ''));
@@ -49,7 +49,7 @@ BoxDecoration cssToBoxDecoration(String style) {
 }
 
 TextStyle cssToTextStyle(String style) {
-  Map<String, String> parsed = cssMap(style);
+  var parsed = cssMap(style);
   var t = TextStyle();
 
   if (parsed.containsKey('color')) {

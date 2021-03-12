@@ -11,14 +11,16 @@ class ConcertoImage extends ConcertoContent {
       {Duration duration, VoidCallback onFinish, int id, this.style, this.url})
       : super(duration: duration, onFinish: onFinish, id: id);
 
+  @override
   ConcertoImageWidget get widget {
-    return new ConcertoImageWidget(
-        key: ValueKey(this.id), url: this.url, style: this.style);
+    return ConcertoImageWidget(
+        key: ValueKey(id), url: url, style: style);
   }
 
+  @override
   void preload(BuildContext context) {
-    print("caching ${this.url}");
-    precacheImage(_img(this.url).image, context);
+    print('caching ${url}');
+    precacheImage(_img(url).image, context);
   }
 }
 

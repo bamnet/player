@@ -11,9 +11,10 @@ class ConcertoHTML extends ConcertoContent {
       {Duration duration, VoidCallback onFinish, int id, this.html, this.style})
       : super(duration: duration, onFinish: onFinish, id: id);
 
+  @override
   ConcertoHTMLWidget get widget {
-    return new ConcertoHTMLWidget(
-        key: ValueKey(this.id), html: this.html, style: this.style);
+    return ConcertoHTMLWidget(
+        key: ValueKey(id), html: html, style: style);
   }
 }
 

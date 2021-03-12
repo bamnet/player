@@ -11,8 +11,8 @@ abstract class ConcertoContent {
   Widget get widget;
 
   void play() {
-    print("playing for $duration");
-    new Timer(duration, this.onFinish);
+    print('playing for $duration');
+    Timer(duration, onFinish);
   }
 
   void preload(BuildContext context) {}
@@ -22,6 +22,7 @@ class EmptyContent extends ConcertoContent {
   EmptyContent({Duration duration, VoidCallback onFinish})
       : super(duration: duration, onFinish: onFinish);
 
+  @override
   Widget get widget {
     return SizedBox();
   }

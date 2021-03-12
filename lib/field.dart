@@ -30,16 +30,16 @@ class Field extends StatefulWidget {
 }
 
 class _FieldState extends State<Field> {
-  api.ConcertoV2Client _client;
+  final api.ConcertoV2Client _client;
   ContentManager _contentManager;
 
   _FieldState(this._client, String fieldContentPath, String fieldName) {
-    this._contentManager = ContentManager(
+    _contentManager = ContentManager(
         client: _client,
         fieldContentPath: fieldContentPath,
         fieldName: fieldName,
         onRefill: recoveryFromEmpty);
-    this._contentManager.refresh();
+    _contentManager.refresh();
   }
 
   Widget currentWidget = SizedBox(); // Placeholder widget.
@@ -49,13 +49,13 @@ class _FieldState extends State<Field> {
 
   void recoveryFromEmpty() {
     if (currentContent == null) {
-      print("Recovering from empty queue by populating current.");
+      print('Recovering from empty queue by populating current.');
       nextContent = getNext();
       _moveNext();
     }
 
-    if (this.nextContent == null) {
-      print("Recovering from empty queue by populating next.");
+    if (nextContent == null) {
+      print('Recovering from empty queue by populating next.');
       nextContent = getNext();
     }
   }
@@ -74,44 +74,44 @@ class _FieldState extends State<Field> {
   }
 
   void _moveNext() {
-    this.currentContent = this.nextContent;
+    currentContent = nextContent;
 
     setState(() {
-      if (this.currentContent == null) {
+      if (currentContent == null) {
         currentWidget = SizedBox();
       } else {
-        currentWidget = this.currentContent.widget;
+        currentWidget = currentContent.widget;
       }
     });
-    if (this.currentContent != null) {
-      this.currentContent.play();
+    if (currentContent != null) {
+      currentContent.play();
     }
 
-    this.nextContent = getNext();
+    nextContent = getNext();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (this.nextContent != null) {
-      this.nextContent.preload(context);
+    if (nextContent != null) {
+      nextContent.preload(context);
     }
 
-    TextStyle style = cssToTextStyle(widget.style);
+    var style = cssToTextStyle(widget.style);
     return DefaultTextStyle(
       style: DefaultTextStyle.of(context).style.merge(style),
       child: AnimatedSwitcher(
-        child: currentWidget,
         duration: transitionTime,
         layoutBuilder: (Widget currentChild, List<Widget> previousChildren) {
           return Stack(
+            alignment: Alignment.center,
+            fit: StackFit.expand,
             children: <Widget>[
               ...previousChildren,
               if (currentChild != null) currentChild,
             ],
-            alignment: Alignment.center,
-            fit: StackFit.expand,
           );
         },
+        child: currentWidget,
       ),
     );
   }

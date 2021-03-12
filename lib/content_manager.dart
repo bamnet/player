@@ -33,11 +33,10 @@ class ContentManager {
   }
 
   void refresh() async {
-    print("fetching $fieldContentPath");
-    List<api.Content> items =
-        await client.getContent(fieldContentPath: fieldContentPath);
+    print('fetching $fieldContentPath');
+    var items = await client.getContent(fieldContentPath: fieldContentPath);
 
-    bool queueWasEmpty = queue.isEmpty;
+    var queueWasEmpty = queue.isEmpty;
 
     queue.addAll(items);
 

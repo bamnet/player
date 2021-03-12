@@ -39,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    print("Screen ID $screenId");
+    print('Screen ID $screenId');
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
@@ -55,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 setState(() {
                   baseUrl = AppSettings().baseUrl;
                   screenId = AppSettings().screenId;
-                  print("Screen ID is now $screenId");
+                  print('Screen ID is now $screenId');
                 });
               },
             )
