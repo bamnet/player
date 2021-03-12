@@ -32,6 +32,7 @@ class _ConcertoHTMLWidgetState extends State<ConcertoHTMLWidget> {
     return HtmlWidget(
       widget.html,
       webView: true,
+      webViewMediaPlaybackAlwaysAllow: true,
     );
   }
 }
