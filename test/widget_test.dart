@@ -9,9 +9,13 @@
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:player/main.dart';
+import 'package:player/settings.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+    SharedPreferences.setMockInitialValues({});
+    await AppSettings().init();
     // Build our app and trigger a frame.
     await tester.pumpWidget(MyApp());
 
