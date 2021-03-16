@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:player/content/content.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:player/content/weather.dart';
 
 class ConcertoHTML extends ConcertoContent {
   final String html;
@@ -13,8 +14,7 @@ class ConcertoHTML extends ConcertoContent {
 
   @override
   ConcertoHTMLWidget get widget {
-    return ConcertoHTMLWidget(
-        key: ValueKey(id), html: html, style: style);
+    return ConcertoHTMLWidget(key: ValueKey(id), html: html, style: style);
   }
 }
 
@@ -31,7 +31,7 @@ class _ConcertoHTMLWidgetState extends State<ConcertoHTMLWidget> {
   @override
   Widget build(BuildContext context) {
     return HtmlWidget(
-      widget.html,
+      swapIcon(widget.html),
       webView: true,
       webViewMediaPlaybackAlwaysAllow: true,
     );
