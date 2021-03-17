@@ -4,6 +4,7 @@ import 'package:player/content/html.dart';
 import 'package:player/content/image.dart';
 import 'package:player/content/text.dart';
 import 'package:player/content/time.dart';
+import 'package:player/content/weather.dart' as weather;
 import 'package:player/util.dart';
 
 /// Convert an API response into the right [ConcertoContent] subclass.
@@ -46,6 +47,10 @@ ConcertoContent convert(
 
     case 'HtmlText':
       {
+        var weatherContent = weather.upgrade(item, onFinish);
+        if (weatherContent != null) {
+          return weatherContent;
+        }
         return ConcertoHTML(
           html: item.renderDetails['data'],
           style: style,
