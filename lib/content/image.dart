@@ -13,13 +13,12 @@ class ConcertoImage extends ConcertoContent {
 
   @override
   ConcertoImageWidget get widget {
-    return ConcertoImageWidget(
-        key: ValueKey(id), url: url, style: style);
+    return ConcertoImageWidget(key: ValueKey(id), url: url, style: style);
   }
 
   @override
   void preload(BuildContext context) {
-    print('caching ${url}');
+    print('caching $url');
     precacheImage(_img(url).image, context);
   }
 }
