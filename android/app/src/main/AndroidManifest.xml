@@ -30,6 +30,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER"/>
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.
@@ -39,4 +40,8 @@
             android:value="2" />
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- The app can run on non-TV devices. -->
+    <uses-feature android:name="android.software.leanback" android:required="false" />
+    <!-- The app does not require a touchscreen. -->
+    <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
 </manifest>
