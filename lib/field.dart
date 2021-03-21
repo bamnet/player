@@ -74,6 +74,12 @@ class _FieldState extends State<Field> {
   }
 
   void _moveNext() {
+    // If no longer mounted, make no more changes.
+    // This avoids calling setState when the widget is no longer in the tree.
+    if (!mounted) {
+      return;
+    }
+
     currentContent = nextContent;
 
     setState(() {

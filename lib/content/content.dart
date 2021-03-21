@@ -6,13 +6,19 @@ abstract class ConcertoContent {
   final VoidCallback onFinish;
   final int id;
 
+  Timer _finish;
+
   ConcertoContent({this.id, this.duration, this.onFinish});
 
   Widget get widget;
 
   void play() {
     print('playing for $duration');
-    Timer(duration, onFinish);
+    _finish = Timer(duration, onFinish);
+  }
+
+  void dispose() {
+    _finish.cancel();
   }
 
   void preload(BuildContext context) {}
