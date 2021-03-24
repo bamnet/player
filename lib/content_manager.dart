@@ -65,6 +65,7 @@ class ContentManager extends ChangeNotifier {
   }
 
   void refresh() async {
+    // TODO: Add some code to prevent multiple pending refreshes.
     print('fetching $fieldContentPath');
     var items = await client.getContent(fieldContentPath: fieldContentPath);
 

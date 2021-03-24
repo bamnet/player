@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const defaultBaseUrl = 'https://mock.your-concerto.com';
@@ -6,7 +7,7 @@ const defaultScreenId = 1;
 const keyBaseUrl = 'base_url';
 const keyScreenId = '';
 
-class AppSettings {
+class AppSettings extends ChangeNotifier {
   static SharedPreferences _sharedPreferences;
 
   factory AppSettings() => AppSettings._internal();
@@ -28,5 +29,9 @@ class AppSettings {
 
   set screenId(int value) {
     _sharedPreferences.setInt(keyScreenId, value);
+  }
+
+  void notify() {
+    notifyListeners();
   }
 }

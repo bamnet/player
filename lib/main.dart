@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:player/frontend.dart';
 import 'package:player/settings.dart';
 import 'package:player/settings_page.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,12 +35,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String baseUrl = AppSettings().baseUrl;
-  int screenId = AppSettings().screenId;
+  var settings = AppSettings();
 
   @override
   Widget build(BuildContext context) {
-    print('Screen ID $screenId');
+    print('Screen ID ${settings.screenId}');
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
@@ -52,18 +52,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   context,
                   MaterialPageRoute(builder: (context) => SettingsPage()),
                 );
-                setState(() {
-                  baseUrl = AppSettings().baseUrl;
-                  screenId = AppSettings().screenId;
-                  print('Screen ID is now $screenId');
-                });
+                settings.notify();
               },
             )
           ],
         ),
-        body: Frontend(
-          baseURL: baseUrl,
-          screenId: screenId,
-        ));
+        body: ChangeNotifierProvider(
+            create: (context) => settings, child: Frontend()));
   }
 }
