@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:player/client/v2/client.dart' as api;
 import 'package:http/http.dart' as http;
+import 'package:player/content_manager.dart';
+import 'package:provider/provider.dart';
 import 'package:player/field.dart';
 import 'package:player/util.dart';
 
@@ -54,14 +56,21 @@ class _FrontendState extends State<Frontend> {
         top: p.top * h,
         right: w - (p.right * w),
         bottom: h - (p.bottom * h),
-        child: Field(
-          client: client,
-          id: p.field.id,
-          name: p.field.name,
-          fieldContentPath: p.fieldContentsPath,
-          style: p.style,
-          config: p.field.config,
-        ),
+        // TODO: ChangeNotifierProxyProvider or ProxyProvider here.
+        child: ChangeNotifierProvider(
+            create: (context) {
+              var manager = ContentManager(
+                  client: client,
+                  fieldName: p.field.name,
+                  fieldContentPath: p.fieldContentsPath,
+                  style: p.style);
+              manager.maybeRefresh();
+              return manager;
+            },
+            child: Field(
+              style: p.style,
+              config: p.field.config,
+            )),
       );
     });
 

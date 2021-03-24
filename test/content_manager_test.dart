@@ -6,12 +6,6 @@ import 'package:mockito/mockito.dart';
 
 class MockConcertoV2Client extends Mock implements ConcertoV2Client {}
 
-class FakeField {
-  void callback() {}
-}
-
-class MockField extends Mock implements FakeField {}
-
 void main() {
   test('fetches next content', () {
     fakeAsync((async) {
@@ -93,11 +87,13 @@ void main() {
                   Content(id: 3),
                   Content(id: 4),
                 ]);
+        var notifyCount = 0;
 
-        final field = MockField();
-
-        final contentManager = ContentManager(
-            client: client, fieldContentPath: 'path', onRefill: field.callback);
+        final contentManager =
+            ContentManager(client: client, fieldContentPath: 'path');
+        contentManager.addListener(() {
+          notifyCount++;
+        });
         contentManager.refresh();
         async.elapse(Duration(seconds: 1));
 
@@ -106,17 +102,21 @@ void main() {
         expect(contentManager.queue.length, 3);
         expect(contentManager.next, isNotNull);
 
-        verify(field.callback()).called(1);
+        expect(notifyCount, 1);
       });
     });
 
     test('invokes callback when recovering from empty', () {
       fakeAsync((async) {
         final client = MockConcertoV2Client();
-        final field = MockField();
 
-        final contentManager = ContentManager(
-            client: client, fieldContentPath: 'path', onRefill: field.callback);
+        var notifyCount = 0;
+
+        final contentManager =
+            ContentManager(client: client, fieldContentPath: 'path');
+        contentManager.addListener(() {
+          notifyCount++;
+        });
         contentManager.queue.addAll(<Content>[
           Content(id: 1),
           Content(id: 2),
@@ -134,7 +134,7 @@ void main() {
         // The queue is now empty. Next time it refills, it should callback.
         expect(() => contentManager.next, throwsException);
         async.elapse(Duration(seconds: 1));
-        verifyNever(field.callback());
+        expect(notifyCount, 0);
 
         when(client.getContent(fieldContentPath: 'path'))
             .thenAnswer((_) async => <Content>[
@@ -145,7 +145,7 @@ void main() {
         // The queue is still empty, but the callback triggers.
         expect(() => contentManager.next, throwsException);
         async.elapse(Duration(seconds: 1));
-        verify(field.callback()).called(1);
+        expect(notifyCount, 1);
 
         // The queue has content.
         expect(contentManager.next, isNotNull);
