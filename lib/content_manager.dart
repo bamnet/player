@@ -23,8 +23,8 @@ class ContentManager extends ChangeNotifier {
   ListQueue<api.Content> queue = ListQueue();
 
   ContentManager(
-      {@required this.client,
-      @required this.fieldContentPath,
+      {required this.client,
+      required this.fieldContentPath,
       this.style = '',
       this.fieldName = ''});
 

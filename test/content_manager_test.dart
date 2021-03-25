@@ -1,11 +1,13 @@
 import 'package:fake_async/fake_async.dart';
+import 'package:mockito/annotations.dart';
 import 'package:player/client/v2/client.dart';
 import 'package:player/content_manager.dart';
 import 'package:test/test.dart';
 import 'package:mockito/mockito.dart';
 
-class MockConcertoV2Client extends Mock implements ConcertoV2Client {}
+import 'content_manager_test.mocks.dart';
 
+@GenerateMocks([ConcertoV2Client])
 void main() {
   test('fetches next content', () {
     fakeAsync((async) {

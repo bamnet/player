@@ -6,10 +6,10 @@ import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart
 class ConcertoText extends ConcertoContent {
   final String text;
   ConcertoText(
-      {@required Duration duration,
-      @required VoidCallback onFinish,
-      @required int id,
-      @required this.text})
+      {required Duration duration,
+      required VoidCallback onFinish,
+      required int id,
+      required this.text})
       : super(duration: duration, onFinish: onFinish, id: id);
 
   @override
@@ -19,7 +19,7 @@ class ConcertoText extends ConcertoContent {
 }
 
 class ConcertoTextWidget extends StatefulWidget {
-  ConcertoTextWidget({Key key, @required this.text}) : super(key: key);
+  ConcertoTextWidget({Key? key, required this.text}) : super(key: key);
   final String text;
 
   @override

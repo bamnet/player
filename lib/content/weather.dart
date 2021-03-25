@@ -13,16 +13,16 @@ class ConcertoWeather extends ConcertoContent {
   final String location;
   final int weatherID;
   final double temperature;
-  final String units;
+  final String? units;
 
   ConcertoWeather(
-      {@required Duration duration,
-      @required VoidCallback onFinish,
-      @required int id,
-      @required this.location,
-      @required this.weatherID,
-      @required this.temperature,
-      @required this.units})
+      {required Duration duration,
+      required VoidCallback onFinish,
+      required int id,
+      required this.location,
+      required this.weatherID,
+      required this.temperature,
+      required this.units})
       : super(duration: duration, onFinish: onFinish, id: id);
 
   @override
@@ -40,14 +40,14 @@ class ConcertoWeatherWidget extends StatefulWidget {
   final String location;
   final int weatherID;
   final double temperature;
-  final String units;
+  final String? units;
 
   ConcertoWeatherWidget(
-      {Key key,
-      @required this.location,
-      @required this.weatherID,
-      @required this.temperature,
-      @required this.units})
+      {Key? key,
+      required this.location,
+      required this.weatherID,
+      required this.temperature,
+      required this.units})
       : super(key: key);
 
   @override
@@ -89,16 +89,16 @@ int _weatherID(String html) {
   if (wID == null) {
     return 0;
   }
-  return int.parse(wID[1]);
+  return int.parse(wID[1]!);
 }
 
-ConcertoWeather upgrade(api.Content item, VoidCallback onFinish) {
+ConcertoWeather? upgrade(api.Content item, VoidCallback onFinish) {
   const prefix = 'Current weather in ';
   if (item.name.startsWith(prefix)) {
     var location = item.name.substring(prefix.length);
 
-    var matches = _tempRe.firstMatch(item.renderDetails['data']);
-    var temp = double.parse(matches.namedGroup('temp'));
+    var matches = _tempRe.firstMatch(item.renderDetails['data'])!;
+    var temp = double.parse(matches.namedGroup('temp')!);
     var unit = matches.namedGroup('units');
 
     var weatherID = _weatherID(item.renderDetails['data']);
@@ -119,15 +119,15 @@ ConcertoWeather upgrade(api.Content item, VoidCallback onFinish) {
 // swapIcon will replace the CSS which loads a weather icon with an img tag.
 String swapIcon(String html) {
   if (_owfIconRe.hasMatch(html)) {
-    var m = _owfIconRe.firstMatch(html);
-    var id = int.parse(m[1]);
+    var m = _owfIconRe.firstMatch(html)!;
+    var id = int.parse(m[1]!);
 
     var url = idToURL(id, iconZoom);
     html = html.replaceFirst(_owfIconRe, '<img src="$url" />');
   }
   if (_wiIconRe.hasMatch(html)) {
-    var m = _wiIconRe.firstMatch(html);
-    var id = int.parse(m[1]);
+    var m = _wiIconRe.firstMatch(html)!;
+    var id = int.parse(m[1]!);
 
     var url = idToURL(id, iconZoom);
     html = html.replaceFirst(_wiIconRe, '<img src="$url" />');

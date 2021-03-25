@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:player/content/content.dart';
 import 'package:player/client/v2/client.dart' as api;
 import 'package:player/content/html.dart';
@@ -21,74 +20,69 @@ import 'package:player/util.dart';
 /// If an appropriate [ConcertoContent] cannot be found,
 /// a generic [EmptyContent] is returned.
 ConcertoContent convert(
-    {@required api.Content item,
-    @required Function onFinish,
-    @required String baseURL,
-    @required String style}) {
+    {required api.Content item,
+    required Function onFinish,
+    required String baseURL,
+    required String style}) {
   switch (item.type) {
     case 'Graphic':
       {
         return ConcertoImage(
-          url: absoluteURL(baseURL, item.renderDetails['path'] /*!*/),
+          url: absoluteURL(baseURL, item.renderDetails['path']!),
           style: style,
           duration: Duration(seconds: item.duration),
-          onFinish: onFinish,
+          onFinish: onFinish as void Function(),
           id: item.id,
         );
       }
-      break;
 
     case 'Ticker':
       {
         return ConcertoText(
-          text: item.renderDetails['data'] /*!*/,
+          text: item.renderDetails['data']!,
           duration: Duration(seconds: item.duration),
-          onFinish: onFinish,
+          onFinish: onFinish as void Function(),
           id: item.id,
         );
       }
-      break;
 
     case 'HtmlText':
       {
-        var weatherContent = weather.upgrade(item, onFinish);
+        var weatherContent = weather.upgrade(item, onFinish as void Function());
         if (weatherContent != null) {
           return weatherContent;
         }
         return ConcertoHTML(
-          html: item.renderDetails['data'] /*!*/,
+          html: item.renderDetails['data']!,
           style: style,
           duration: Duration(seconds: item.duration),
           onFinish: onFinish,
           id: item.id,
         );
       }
-      break;
 
     case 'Time':
       {
         return ConcertoTime(
           duration: Duration(seconds: item.duration),
-          onFinish: onFinish,
+          onFinish: onFinish as void Function(),
         );
       }
-      break;
 
     case 'RemoteVideo':
       {
         return ConcertoHTML(
-          html: '<iframe src="${item.renderDetails['path'] /*!*/}"></iframe>',
+          html: '<iframe src="${item.renderDetails['path']!}"></iframe>',
           style: style,
           duration: Duration(seconds: item.duration),
-          onFinish: onFinish,
+          onFinish: onFinish as void Function(),
           id: item.id,
         );
       }
-      break;
   }
 
   return EmptyContent(
     duration: Duration(seconds: 10),
-    onFinish: onFinish,
+    onFinish: onFinish as void Function()?,
   );
 }

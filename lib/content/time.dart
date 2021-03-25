@@ -6,7 +6,7 @@ import 'package:player/content/content.dart';
 import 'package:intl/intl.dart';
 
 class ConcertoTime extends ConcertoContent {
-  ConcertoTime({@required Duration duration, @required VoidCallback onFinish})
+  ConcertoTime({required Duration duration, required VoidCallback onFinish})
       : super(id: 0, duration: duration, onFinish: onFinish);
 
   @override
@@ -16,15 +16,15 @@ class ConcertoTime extends ConcertoContent {
 }
 
 class ConcertoTimeWidget extends StatefulWidget {
-  ConcertoTimeWidget({Key key}) : super(key: key);
+  ConcertoTimeWidget({Key? key}) : super(key: key);
 
   @override
   _ConcertoTimeWidgetState createState() => _ConcertoTimeWidgetState();
 }
 
 class _ConcertoTimeWidgetState extends State<ConcertoTimeWidget> {
-  String _time;
-  Timer timer;
+  late String _time;
+  late Timer timer;
 
   @override
   void initState() {

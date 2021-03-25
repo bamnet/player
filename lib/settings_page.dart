@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:player/settings.dart';
 
 class SettingsPage extends StatefulWidget {
-  SettingsPage({Key key}) : super(key: key);
+  SettingsPage({Key? key}) : super(key: key);
 
   @override
   SettingsPageState createState() => SettingsPageState();
@@ -11,7 +11,7 @@ class SettingsPage extends StatefulWidget {
 class SettingsPageState extends State<SettingsPage> {
   final _formKey = GlobalKey<FormState>();
 
-  String baseUrl = AppSettings().baseUrl;
+  String? baseUrl = AppSettings().baseUrl;
   int screenId = AppSettings().screenId;
 
   @override
@@ -40,7 +40,7 @@ class SettingsPageState extends State<SettingsPage> {
                     hintText: 'Server Address',
                   ),
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                       return 'Please enter a valid server address.';
                     }
                     return null;
@@ -55,7 +55,7 @@ class SettingsPageState extends State<SettingsPage> {
                     hintText: 'Screen ID',
                   ),
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                       return 'Please enter a valid screen ID.';
                     }
                     if (int.tryParse(value) == null) {
@@ -64,20 +64,20 @@ class SettingsPageState extends State<SettingsPage> {
                     return null;
                   },
                   onSaved: (value) {
-                    screenId = int.parse(value);
+                    screenId = int.parse(value!);
                   },
                 ),
                 Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
                     child: ElevatedButton(
                       onPressed: () {
-                        final form = _formKey.currentState;
+                        final form = _formKey.currentState!;
                         if (form.validate()) {
                           form.save();
 
                           print('Base: $baseUrl, ID: $screenId');
                           var settings = AppSettings();
-                          settings.baseUrl = baseUrl;
+                          settings.baseUrl = baseUrl!;
                           settings.screenId = screenId;
                           Navigator.pop(context);
                         }

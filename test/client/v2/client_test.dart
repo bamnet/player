@@ -1,19 +1,21 @@
 import 'dart:io';
 
+import 'package:mockito/annotations.dart';
 import 'package:player/client/v2/client.dart';
 import 'package:test/test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
 
-class MockHTTPClient extends Mock implements http.Client {}
+import 'client_test.mocks.dart';
 
+@GenerateMocks([http.Client])
 void main() {
   group('getScreen', () {
     test('returns a Screen on success', () async {
-      final httpClient = MockHTTPClient();
+      final httpClient = MockClient();
 
       final file = File('test/testdata/setup_standard.json');
-      when(httpClient.get(Uri.tryParse('http://server/frontend/1/setup.json')))
+      when(httpClient.get(Uri.parse('http://server/frontend/1/setup.json')))
           .thenAnswer(
               (_) async => http.Response(await file.readAsString(), 200));
 
@@ -39,11 +41,11 @@ void main() {
 
   group('getContent', () {
     test('returns Contents on success', () async {
-      final httpClient = MockHTTPClient();
+      final httpClient = MockClient();
 
       final file = File('test/testdata/content_multi.json');
       when(httpClient.get(
-              Uri.tryParse('http://server/frontend/1/fields/1/contents.json')))
+              Uri.tryParse('http://server/frontend/1/fields/1/contents.json')!))
           .thenAnswer(
               (_) async => http.Response(await file.readAsString(), 200));
 

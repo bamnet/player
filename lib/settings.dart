@@ -8,7 +8,7 @@ const keyBaseUrl = 'base_url';
 const keyScreenId = '';
 
 class AppSettings extends ChangeNotifier {
-  static SharedPreferences _sharedPreferences;
+  static SharedPreferences? _sharedPreferences;
 
   factory AppSettings() => AppSettings._internal();
 
@@ -19,16 +19,16 @@ class AppSettings extends ChangeNotifier {
   }
 
   String get baseUrl =>
-      _sharedPreferences.getString(keyBaseUrl) ?? defaultBaseUrl;
+      _sharedPreferences!.getString(keyBaseUrl) ?? defaultBaseUrl;
 
   set baseUrl(String value) {
-    _sharedPreferences.setString(keyBaseUrl, value);
+    _sharedPreferences!.setString(keyBaseUrl, value);
   }
 
-  int get screenId => _sharedPreferences.getInt(keyScreenId) ?? defaultScreenId;
+  int get screenId => _sharedPreferences!.getInt(keyScreenId) ?? defaultScreenId;
 
   set screenId(int value) {
-    _sharedPreferences.setInt(keyScreenId, value);
+    _sharedPreferences!.setInt(keyScreenId, value);
   }
 
   void notify() {

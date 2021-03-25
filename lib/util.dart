@@ -24,19 +24,19 @@ String absoluteURL(String baseURL, String path) {
 }
 
 /// Parse a simple css style string into a Map.
-Map<String, String> cssMap(String style) {
+Map<String, String?> cssMap(String style) {
   var matches = _styleRe.allMatches(style);
 
   return {
     for (var match in matches)
-      match.namedGroup('prop').toLowerCase(): match.namedGroup('val')
+      match.namedGroup('prop')!.toLowerCase(): match.namedGroup('val')
   };
 }
 
-BoxDecoration cssToBoxDecoration(String style) {
+BoxDecoration? cssToBoxDecoration(String style) {
   var parsed = cssMap(style);
   if (parsed.containsKey('border')) {
-    var pieces = parsed['border'].split(' ');
+    var pieces = parsed['border']!.split(' ');
     var width = double.parse(pieces[1].replaceAll('px', ''));
     var b = Border.all(
       width: width,
@@ -53,7 +53,7 @@ TextStyle cssToTextStyle(String style) {
   var t = TextStyle();
 
   if (parsed.containsKey('color')) {
-    var hex = parsed['color'];
+    var hex = parsed['color']!;
     t = t.merge(TextStyle(color: cssColor(hex)));
   }
   if (parsed.containsKey('font-weight')) {
@@ -64,7 +64,7 @@ TextStyle cssToTextStyle(String style) {
     }
   }
   if (parsed.containsKey('font-family')) {
-    var family = parsed['font-family'].split(_splitRe);
+    var family = parsed['font-family']!.split(_splitRe);
     t = t.merge(TextStyle(
         fontFamily: family.first, fontFamilyFallback: family.sublist(1)));
   }

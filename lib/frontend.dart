@@ -29,7 +29,7 @@ class _FrontendState extends State<Frontend> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return screenLayout(
-                    context, constraints, client, snapshot.data);
+                    context, constraints, client, snapshot.data!);
               } else if (snapshot.hasError) {}
               return CircularProgressIndicator();
             });
@@ -73,7 +73,8 @@ class _FrontendState extends State<Frontend> {
                 update: (context, settings, manager) {
                   // Return a new manager if the server or field id
                   // path has changed.
-                  if (manager.client.baseURL != settings.baseUrl ||
+                  if (manager == null ||
+                      manager.client.baseURL != settings.baseUrl ||
                       manager.fieldContentPath != p.fieldContentsPath) {
                     var newManager = ContentManager(
                         client: client,
