@@ -1,10 +1,14 @@
 import 'dart:collection';
 
 import 'package:flutter/widgets.dart';
+import 'package:clock/clock.dart';
 import 'package:player/content/content.dart';
 import 'package:player/client/v2/client.dart' as api;
 
 import 'content/converter.dart';
+
+const minRefreshInterval = Duration(seconds: 1);
+const minQueueSize = 2;
 
 class NoContentException implements Exception {}
 
@@ -14,6 +18,7 @@ class ContentManager extends ChangeNotifier {
   final String fieldName;
   final String style;
 
+  DateTime _lastRefreshAttempt;
   ConcertoContent _content;
   ListQueue<api.Content> queue = ListQueue();
 
@@ -59,13 +64,16 @@ class ContentManager extends ChangeNotifier {
   }
 
   void maybeRefresh() {
-    if (queue.length < 2) {
+    if (queue.length < minQueueSize &&
+        (_lastRefreshAttempt == null ||
+            clock.now().difference(_lastRefreshAttempt) > minRefreshInterval)) {
       refresh();
     }
   }
 
   void refresh() async {
-    // TODO: Add some code to prevent multiple pending refreshes.
+    _lastRefreshAttempt = clock.now();
+
     print('fetching $fieldContentPath');
     var items = await client.getContent(fieldContentPath: fieldContentPath);
 

@@ -61,6 +61,27 @@ void main() {
     });
   });
 
+  test('will not maybeRefresh too fast', () {
+    fakeAsync((async) {
+      final client = MockConcertoV2Client();
+      when(client.getContent(fieldContentPath: 'path'))
+          .thenAnswer((_) async => <Content>[]);
+
+      final contentManager =
+          ContentManager(client: client, fieldContentPath: 'path');
+      contentManager.maybeRefresh();
+      verify(client.getContent(fieldContentPath: 'path')).called(1);
+
+      contentManager.maybeRefresh();
+      verifyNever(client.getContent(fieldContentPath: 'path'));
+
+      async.elapse(Duration(seconds: 5));
+
+      contentManager.maybeRefresh();
+      verify(client.getContent(fieldContentPath: 'path')).called(1);
+    });
+  });
+
   test('returns synthetic time field content', () {
     fakeAsync((async) {
       final client = MockConcertoV2Client();
@@ -76,8 +97,8 @@ void main() {
     });
   });
 
-  group('onFinish callback', () {
-    test('invokes callback once when first filled', () {
+  group('notify listeners', () {
+    test('once when first filled', () {
       fakeAsync((async) {
         final client = MockConcertoV2Client();
         when(client.getContent(fieldContentPath: 'path'))
@@ -106,7 +127,7 @@ void main() {
       });
     });
 
-    test('invokes callback when recovering from empty', () {
+    test('when recovering from empty', () {
       fakeAsync((async) {
         final client = MockConcertoV2Client();
 
