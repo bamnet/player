@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:player/content/content.dart';
 import 'package:player/client/v2/client.dart' as api;
 import 'package:player/content/html.dart';
@@ -20,12 +21,15 @@ import 'package:player/util.dart';
 /// If an appropriate [ConcertoContent] cannot be found,
 /// a generic [EmptyContent] is returned.
 ConcertoContent convert(
-    {api.Content item, Function onFinish, String baseURL, String style}) {
+    {@required api.Content item,
+    @required Function onFinish,
+    @required String baseURL,
+    @required String style}) {
   switch (item.type) {
     case 'Graphic':
       {
         return ConcertoImage(
-          url: absoluteURL(baseURL, item.renderDetails['path']),
+          url: absoluteURL(baseURL, item.renderDetails['path'] /*!*/),
           style: style,
           duration: Duration(seconds: item.duration),
           onFinish: onFinish,
@@ -37,7 +41,7 @@ ConcertoContent convert(
     case 'Ticker':
       {
         return ConcertoText(
-          text: item.renderDetails['data'],
+          text: item.renderDetails['data'] /*!*/,
           duration: Duration(seconds: item.duration),
           onFinish: onFinish,
           id: item.id,
@@ -52,7 +56,7 @@ ConcertoContent convert(
           return weatherContent;
         }
         return ConcertoHTML(
-          html: item.renderDetails['data'],
+          html: item.renderDetails['data'] /*!*/,
           style: style,
           duration: Duration(seconds: item.duration),
           onFinish: onFinish,
@@ -73,7 +77,7 @@ ConcertoContent convert(
     case 'RemoteVideo':
       {
         return ConcertoHTML(
-          html: '<iframe src="${item.renderDetails['path']}"></iframe>',
+          html: '<iframe src="${item.renderDetails['path'] /*!*/}"></iframe>',
           style: style,
           duration: Duration(seconds: item.duration),
           onFinish: onFinish,

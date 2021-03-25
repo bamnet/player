@@ -6,8 +6,8 @@ import 'package:player/content/content.dart';
 import 'package:intl/intl.dart';
 
 class ConcertoTime extends ConcertoContent {
-  ConcertoTime({Duration duration, VoidCallback onFinish})
-      : super(duration: duration, onFinish: onFinish);
+  ConcertoTime({@required Duration duration, @required VoidCallback onFinish})
+      : super(id: 0, duration: duration, onFinish: onFinish);
 
   @override
   ConcertoTimeWidget get widget {

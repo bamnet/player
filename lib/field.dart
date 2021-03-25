@@ -10,7 +10,8 @@ class Field extends StatefulWidget {
   // TODO: Figure out what this config should be used for.
   final Map<String, dynamic> config;
 
-  Field({Key key, this.style, this.config}) : super(key: key);
+  Field({Key key, @required this.style, @required this.config})
+      : super(key: key);
 
   @override
   _FieldState createState() => _FieldState();

@@ -8,7 +8,8 @@ abstract class ConcertoContent {
 
   Timer _finish;
 
-  ConcertoContent({this.id, this.duration, this.onFinish});
+  ConcertoContent(
+      {@required this.id, @required this.duration, @required this.onFinish});
 
   Widget get widget;
 
@@ -18,7 +19,9 @@ abstract class ConcertoContent {
   }
 
   void dispose() {
-    _finish.cancel();
+    if (_finish != null) {
+      _finish.cancel();
+    }
   }
 
   void preload(BuildContext context) {}
@@ -26,7 +29,7 @@ abstract class ConcertoContent {
 
 class EmptyContent extends ConcertoContent {
   EmptyContent({Duration duration, VoidCallback onFinish})
-      : super(duration: duration, onFinish: onFinish);
+      : super(id: -1, duration: duration, onFinish: onFinish);
 
   @override
   Widget get widget {

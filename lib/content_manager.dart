@@ -18,27 +18,26 @@ class ContentManager extends ChangeNotifier {
   final String fieldName;
   final String style;
 
-  DateTime _lastRefreshAttempt;
-  ConcertoContent _content;
+  DateTime _lastRefreshAttempt = DateTime(0);
+  ConcertoContent _content = EmptyContent();
   ListQueue<api.Content> queue = ListQueue();
 
   ContentManager(
-      {this.client, this.fieldContentPath, this.style, this.fieldName});
+      {@required this.client,
+      @required this.fieldContentPath,
+      this.style = '',
+      this.fieldName = ''});
 
   @override
   void dispose() {
-    if (_content != null) {
-      _content.dispose();
-    }
+    _content.dispose();
     super.dispose();
   }
 
   Widget get content {
-    if (_content != null) {
-      // Trash the old content.
-      // This is a hack to stop the timer from running.
-      _content.dispose();
-    }
+    // Trash the old content.
+    // This is a hack to stop the timer from running.
+    _content.dispose();
     try {
       var item = next;
       _content = convert(
@@ -65,8 +64,7 @@ class ContentManager extends ChangeNotifier {
 
   void maybeRefresh() {
     if (queue.length < minQueueSize &&
-        (_lastRefreshAttempt == null ||
-            clock.now().difference(_lastRefreshAttempt) > minRefreshInterval)) {
+        clock.now().difference(_lastRefreshAttempt) > minRefreshInterval) {
       refresh();
     }
   }
@@ -82,7 +80,7 @@ class ContentManager extends ChangeNotifier {
     queue.addAll(items);
 
     if (fieldName == 'Time' && queue.isEmpty) {
-      var time = api.Content(duration: 60, type: 'Time');
+      var time = api.Content(id: 0, duration: 60, type: 'Time');
       // Add a bunch of time elements so we don't trigger
       // a refresh loop.
       queue.addAll([time, time, time]);

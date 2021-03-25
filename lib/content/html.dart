@@ -9,7 +9,11 @@ class ConcertoHTML extends ConcertoContent {
   final String style;
 
   ConcertoHTML(
-      {Duration duration, VoidCallback onFinish, int id, this.html, this.style})
+      {@required Duration duration,
+      @required VoidCallback onFinish,
+      @required int id,
+      @required this.html,
+      @required this.style})
       : super(duration: duration, onFinish: onFinish, id: id);
 
   @override
@@ -19,7 +23,8 @@ class ConcertoHTML extends ConcertoContent {
 }
 
 class ConcertoHTMLWidget extends StatefulWidget {
-  ConcertoHTMLWidget({Key key, this.html, this.style}) : super(key: key);
+  ConcertoHTMLWidget({Key key, @required this.html, @required this.style})
+      : super(key: key);
   final String html;
   final String style;
 

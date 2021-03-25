@@ -4,10 +4,11 @@ import 'package:player/client/v2/client.dart' as api;
 
 void main() {
   test('upgrade', () {
-    expect(upgrade(api.Content(name: 'Not Weather'), () {}), isNull);
+    expect(upgrade(api.Content(id: 0, name: 'Not Weather'), () {}), isNull);
 
     var troy = upgrade(
         api.Content(
+          id: 0,
           name: 'Current weather in Troy',
           duration: 0,
           renderDetails: {
@@ -24,6 +25,7 @@ void main() {
 
     var nyc = upgrade(
         api.Content(
+          id: 0,
           name: 'Current weather in New York',
           duration: 0,
           renderDetails: {

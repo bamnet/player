@@ -8,7 +8,11 @@ class ConcertoImage extends ConcertoContent {
   final String style;
 
   ConcertoImage(
-      {Duration duration, VoidCallback onFinish, int id, this.style, this.url})
+      {@required Duration duration,
+      @required VoidCallback onFinish,
+      @required int id,
+      @required this.style,
+      @required this.url})
       : super(duration: duration, onFinish: onFinish, id: id);
 
   @override
@@ -24,7 +28,8 @@ class ConcertoImage extends ConcertoContent {
 }
 
 class ConcertoImageWidget extends StatefulWidget {
-  ConcertoImageWidget({Key key, this.url, this.style}) : super(key: key);
+  ConcertoImageWidget({Key key, @required this.url, @required this.style})
+      : super(key: key);
   final String url;
   final String style;
 

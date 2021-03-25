@@ -16,13 +16,13 @@ class ConcertoWeather extends ConcertoContent {
   final String units;
 
   ConcertoWeather(
-      {Duration duration,
-      VoidCallback onFinish,
-      int id,
-      this.location,
-      this.weatherID,
-      this.temperature,
-      this.units})
+      {@required Duration duration,
+      @required VoidCallback onFinish,
+      @required int id,
+      @required this.location,
+      @required this.weatherID,
+      @required this.temperature,
+      @required this.units})
       : super(duration: duration, onFinish: onFinish, id: id);
 
   @override
@@ -43,7 +43,11 @@ class ConcertoWeatherWidget extends StatefulWidget {
   final String units;
 
   ConcertoWeatherWidget(
-      {Key key, this.location, this.weatherID, this.temperature, this.units})
+      {Key key,
+      @required this.location,
+      @required this.weatherID,
+      @required this.temperature,
+      @required this.units})
       : super(key: key);
 
   @override
@@ -83,7 +87,7 @@ int _weatherID(String html) {
   var wID = _owfIconRe.firstMatch(html);
   wID ??= _wiIconRe.firstMatch(html);
   if (wID == null) {
-    return null;
+    return 0;
   }
   return int.parse(wID[1]);
 }
@@ -141,7 +145,7 @@ String idToURL(int id, [String scale = '']) {
 
 // _idToIcon takes an Open Weather ID and converts it into an icon ID.
 String _idToIcon(int id) {
-  var code;
+  var code = '03d'; // Default to clouds.
   if (id >= 200) {
     code = '11d';
   }
